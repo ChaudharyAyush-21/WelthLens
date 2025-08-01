@@ -4,6 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import aj from "@/lib/Arcjet";
+import { headers } from "next/headers";
 
 // Helper to serialize BigInt/Decimal values
 const serializeTransaction = (obj) => {
@@ -46,7 +47,14 @@ export async function createAccount(data) {
   const { userId } = await auth();
   if (!userId) throw new Error("Unauthorized");
 
-  const req = await request(); // Assuming this is a global/request util
+  const headersList = await headers();
+  const req = {
+    ip: headersList.get("x-forwarded-for") || headersList.get("x-real-ip") || "127.0.0.1",
+    method: "POST",
+    url: "/dashboard",
+    headers: Object.fromEntries(headersList.entries()),
+  };
+
   const decision = await aj.protect(req, {
     userId,
     requested: 1,

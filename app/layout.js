@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
           <Toaster richColors />
           <footer className="bg-gradient-to-r from-[#A2D2DF] to-[#D4BEE4] py-10">
             <div className="container mx-auto px-4 text-center text-grey-600">
-              <p>© 2024 Krish | WealthLens 💼💡. All Rights Reserved.</p>
+              <p>WealthLens 💼💡. All Rights Reserved.</p>
               <p>
                 Empowering your financial journey with clear insights and
                 strategic solutions 📊💰.
