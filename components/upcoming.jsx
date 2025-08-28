@@ -8,7 +8,7 @@ import {
 
 export function GlowingStar() {
   return (
-    <div className="flex py-20 items-start justify-center space-x-8">
+    <div className="flex py-20 px-10 items-start justify-center space-x-8">
       <GlowingStarsBackgroundCard className="flex-1">
         <GlowingStarsTitle className="text-center">
           SmartPaySync

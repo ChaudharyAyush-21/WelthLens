@@ -2,7 +2,7 @@ import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { PenBox, LayoutDashboard } from "lucide-react";
+import { PenBox, LayoutDashboard, Calculator } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
 
 const Header = async () => {
@@ -33,11 +33,11 @@ const Header = async () => {
             </Link>
 
              <Link
-              href="/taxestimate"
+              href="/debtpredictor"
               className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
             >
               <Button variant="outline">
-                <LayoutDashboard size={18} />
+                <Calculator size={18} />
                 <span className="hidden md:inline">Tax Predictor</span>
               </Button>
             </Link>

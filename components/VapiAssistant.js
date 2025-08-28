@@ -1,29 +1,25 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Vapi from "@vapi-ai/web";
 
 export default function VapiPage() {
+  const [callState, setCallState] = useState("idle"); // idle, connecting, connected, ending
+
   useEffect(() => {
     const vapi = new Vapi("eaca5422-eca6-4653-92fc-8ec899e6cebf");
-
     const assistantId = "d449af11-736a-41c6-8950-4fb38b96e801";
 
-    const startCallButton = document.getElementById("start-call");
-    startCallButton?.addEventListener("click", async () => {
-      await vapi.start(assistantId);
-    });
-
-    const stopCallButton = document.getElementById("stop-call");
-    stopCallButton?.addEventListener("click", async () => {
-      await vapi.stop();
-    });
+    // Store vapi instance for button click handler
+    window.vapiInstance = vapi;
 
     vapi.on("call-start", () => {
       console.log("Call Started");
+      setCallState("connected");
     });
 
     vapi.on("call-end", () => {
       console.log("Call Ended");
+      setCallState("idle");
     });
 
     vapi.on("speech-start", () => {
@@ -58,21 +54,91 @@ export default function VapiPage() {
         console.log("Redirecting to checkout...");
       }
     });
+
+    return () => {
+      window.vapiInstance = null;
+    };
   }, []);
 
+  const handleCallToggle = async () => {
+    const vapi = window.vapiInstance;
+    if (!vapi) return;
+
+    const assistantId = "d449af11-736a-41c6-8950-4fb38b96e801";
+
+    if (callState === "idle") {
+      setCallState("connecting");
+      try {
+        await vapi.start(assistantId);
+      } catch (error) {
+        console.error("Failed to start call:", error);
+        setCallState("idle");
+      }
+    } else if (callState === "connected") {
+      setCallState("ending");
+      try {
+        await vapi.stop();
+      } catch (error) {
+        console.error("Failed to stop call:", error);
+        setCallState("connected");
+      }
+    }
+  };
+
+  const getButtonConfig = () => {
+    switch (callState) {
+      case "idle":
+        return {
+          text: "Start Call",
+          bgColor: "bg-blue-600 hover:bg-blue-700",
+          disabled: false
+        };
+      case "connecting":
+        return {
+          text: "Connecting...",
+          bgColor: "bg-yellow-500",
+          disabled: true
+        };
+      case "connected":
+        return {
+          text: "End Call",
+          bgColor: "bg-red-600 hover:bg-red-700",
+          disabled: false
+        };
+      case "ending":
+        return {
+          text: "Ending...",
+          bgColor: "bg-gray-500",
+          disabled: true
+        };
+      default:
+        return {
+          text: "Start Call",
+          bgColor: "bg-blue-600 hover:bg-blue-700",
+          disabled: false
+        };
+    }
+  };
+
+  const config = getButtonConfig();
+
   return (
-    <div className="flex gap-4">
+    <div className="flex items-center justify-center p-4">
       <button
-        id="start-call"
-        className="bg-blue-600 text-white px-4 py-2 rounded shadow"
+        onClick={handleCallToggle}
+        disabled={config.disabled}
+        className={`
+          px-6 py-2 rounded-lg text-white font-medium
+          ${config.bgColor}
+          transition-colors duration-200
+          disabled:opacity-50 disabled:cursor-not-allowed
+          shadow-sm hover:shadow-md
+        `}
       >
-        Start Call
-      </button>
-      <button
-        id="stop-call"
-        className="bg-red-600 text-white px-4 py-2 rounded shadow"
-      >
-        Stop Call
+        {config.text}
+        {callState === "connected" && (
+          <span className="ml-2 w-2 h-2 bg-white rounded-full inline-block animate-pulse"></span>
+        )}
       </button>
     </div>
   );
