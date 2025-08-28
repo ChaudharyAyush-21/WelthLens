@@ -45,7 +45,7 @@ https://tailwindui.com/components
         </div>
       </section> */}
 
-1>first graph 
+// 1>first graph 
 
 <BarChart
   dataset={dataset}
@@ -59,14 +59,14 @@ https://tailwindui.com/components
   {...chartSetting}
 />
 
-2>Round graph
+// 2>Round graph
 
 import { PieChart } from '@mui/x-charts/PieChart';
 
 <PieChart
   series={[
     {
-      data: [ ... ],
+      data: [...],
       innerRadius: 30,
       outerRadius: 100,
       paddingAngle: 5,
@@ -77,9 +77,9 @@ import { PieChart } from '@mui/x-charts/PieChart';
       cy: 150,
     }
   ]}
-/>
+/> 
 
-3>Metter Graph 
+// 3>Metter Graph 
 
 import { Gauge, gaugeClasses } from '@mui/x-charts/Gauge';
 

@@ -32,6 +32,16 @@ const Header = async () => {
               </Button>
             </Link>
 
+             <Link
+              href="/taxestimate"
+              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+            >
+              <Button variant="outline">
+                <LayoutDashboard size={18} />
+                <span className="hidden md:inline">Tax Predictor</span>
+              </Button>
+            </Link>
+
             <a href="/transaction/create">
               <Button className="flex items-center gap-2">
                 <PenBox size={18} />

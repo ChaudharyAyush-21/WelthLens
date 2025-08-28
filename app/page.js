@@ -43,7 +43,7 @@ export default function Home() {
             </div>
             <div className="space-y-2">
               <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-900 dark:text-white">
-                $1B+
+                ₹1B+
               </h2>
               <p className="text-gray-700 dark:text-gray-300">
                 Transactions Tracked
@@ -182,7 +182,7 @@ export default function Home() {
                   <div className="flex relative py-3 before:absolute before:top-1/2 before:inset-0 before:h-px before:bg-gray-200 dark:before:bg-gray-800" />
                   <div className="text-center space-y-2">
                     <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                      ${isMonthly ? "100.00" : "1000.00"}
+                      ₹{isMonthly ? "100.00" : "1000.00"}
                     </p>
                     <span className="text-gray-700 dark:text-gray-300">
                       {isMonthly ? "Per Month/Per user" : "Per Year/Per user"}
@@ -213,7 +213,7 @@ export default function Home() {
                 <div className="flex relative py-3 before:absolute before:top-1/2 before:inset-0 before:h-px before:bg-gray-100 dark:before:bg-gray-900" />
                 <div className="text-center space-y-2">
                   <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                    ${isMonthly ? "200.00" : "2000.00"}
+                    ₹{isMonthly ? "200.00" : "2000.00"}
                   </p>
                   <span className="text-gray-700 dark:text-gray-300">
                     {isMonthly ? "Per Month/Per user" : "Per Year/Per user"}

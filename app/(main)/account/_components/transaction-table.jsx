@@ -1,3 +1,4 @@
+
 "use client";
 
 import { bulkDeleteTransactions } from "@/actions/accounts";
@@ -363,7 +364,7 @@ const TransactionTable = ({ transactions }) => {
                       color: transaction.type === "EXPENSE" ? "red" : "green",
                     }}
                   >
-                    {transaction.type === "EXPENSE" ? "-" : "+"}$
+                    {transaction.type === "EXPENSE" ? "-" : "+"}₹
                     {transaction.amount.toFixed(2)}
                   </TableCell>
                   <TableCell>
