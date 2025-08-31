@@ -3,7 +3,6 @@ generator client {
   output   = "./node_modules/@prisma/client"
 }
 
-
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
@@ -21,6 +20,9 @@ model User {
   accounts     Account[]
   budgets      Budget?
   transactions Transaction[]
+  debts        Debt[]
+  debtPayments DebtPayment[] 
+  debtReceipts DebtReceipt[]
 
   @@map("users")
 }
@@ -100,4 +102,80 @@ enum RecurringInterval {
   WEEKLY
   MONTHLY
   YEARLY
+}
+
+model Debt {
+  id              String          @id @default(uuid())
+  name            String
+  type            DebtType
+  totalAmount     Decimal
+  currentBalance  Decimal
+  interestRate    Decimal?
+  minPayment      Decimal?
+  dueDate         DateTime?
+  description     String?
+  status          DebtStatus      @default(ACTIVE)
+  userId          String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments        DebtPayment[]
+  receipts        DebtReceipt[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("debts")
+}
+
+model DebtPayment {
+  id          String      @id @default(uuid())
+  amount      Decimal
+  paymentDate DateTime
+  description String?
+  debtId      String
+  userId      String
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  debt        Debt        @relation(fields: [debtId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([debtId])
+  @@index([userId])
+  @@map("debt_payments")
+}
+
+model DebtReceipt {
+  id          String   @id @default(uuid())
+  fileName    String
+  fileUrl     String
+  fileSize    Int
+  uploadDate  DateTime @default(now())
+  description String?
+  debtId      String
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  debt        Debt     @relation(fields: [debtId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([debtId])
+  @@index([userId])
+  @@map("debt_receipts")
+}
+
+enum DebtType {
+  CREDIT_CARD
+  PERSONAL_LOAN
+  HOME_LOAN
+  CAR_LOAN
+  EDUCATION_LOAN
+  EMI
+  OTHER
+}
+
+enum DebtStatus {
+  ACTIVE
+  PAID_OFF
+  OVERDUE
+  PAUSED
 }

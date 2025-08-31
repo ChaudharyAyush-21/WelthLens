@@ -38,7 +38,7 @@ const Header = async () => {
             >
               <Button variant="outline">
                 <Calculator size={18} />
-                <span className="hidden md:inline">Tax Predictor</span>
+                <span className="hidden md:inline">Debt Tracker</span>
               </Button>
             </Link>
 
