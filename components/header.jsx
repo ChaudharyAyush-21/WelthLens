@@ -32,13 +32,23 @@ const Header = async () => {
               </Button>
             </Link>
 
-             <Link
-              href="/debt-tracker"
+            <Link
+              href="/budget"
               className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
             >
               <Button variant="outline">
                 <Calculator size={18} />
-                <span className="hidden md:inline">Debt Tracker</span>
+                <span className="hidden md:inline">Budget Planner</span>
+              </Button>
+            </Link>
+
+            <Link
+              href="/taxestimate"
+              className="text-gray-600 hover:text-blue-600 flex items-center gap-2"
+            >
+              <Button variant="outline">
+                <Calculator size={18} />
+                <span className="hidden md:inline">Tex Estimators</span>
               </Button>
             </Link>
 

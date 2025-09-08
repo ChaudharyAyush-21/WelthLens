@@ -1,15 +1,18 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
-const globalForPrisma = globalThis;
+const globalForPrisma = globalThis
 
-const prisma =
-  globalForPrisma.prisma ||
+export const prisma =
+  globalForPrisma.prisma ??
   new PrismaClient({
-    log: ["query", "error", "warn"],
-  });
+    log: ['query', 'error', 'warn'],
+  })
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') {
+  globalForPrisma.prisma = prisma
+}
 
-export { prisma };
-
-
+// Test the connection
+prisma.$connect()
+  .then(() => console.log('Prisma connected successfully'))
+  .catch((error) => console.error('Prisma connection error:', error))
